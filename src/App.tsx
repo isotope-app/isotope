@@ -1,12 +1,14 @@
-import type { Component } from 'solid-js';
-import Comp from './Comp';
+import type { Component } from "solid-js";
+import SignInField from "./components/SignInField";
+import WelcomeHero from "./components/WelcomeHero";
+import { Routes, Route } from "@solidjs/router";
 
 const App: Component = () => {
   return (
-    <>
-      <h1>Hello world!!!!</h1>
-      <Comp />
-    </>
+    <Routes>
+      <Route path="/" element={<WelcomeHero />} />
+      <Route path="/sign-in" element={<SignInField />} />
+    </Routes>
   );
 };
 
