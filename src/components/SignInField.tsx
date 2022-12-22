@@ -1,5 +1,6 @@
 import { createSignal } from "solid-js";
 import Button from "./Button";
+import Link from "./Link";
 
 export default () => {
   const [processing, setProcessing] = createSignal(false);
@@ -15,8 +16,8 @@ export default () => {
   };
 
   return (
-    <main class="w-screen h-screen flex justify-center items-center p-4">
-      <div class="bg-white border shadow-light-500 shadow-lg w-1/3 rounded-md p-8">
+    <main class="w-screen h-screen flex justify-center items-center p-8 text-black dark:text-white">
+      <div class="bg-white dark:bg-black border shadow-light-500 dark:shadow-dark-200 shadow-lg w-1/3 rounded-md p-8">
         {processing() ? (
           <div class="flex flex-col items-center gap-y-2">
             <CogIcon />
@@ -28,21 +29,19 @@ export default () => {
               <LockIcon />
               <h1 class="text-2xl font-medium">Sign In Methods</h1>
             </div>
-            <hr class="my-3 border-light-600" />
+            <hr class="my-4 border-light-600 dark:border-dark-300" />
             <div class="flex flex-col gap-2">
               <Button onClick={signIn}>Continue with MetaMask</Button>
             </div>
-            <hr class="my-3 border-light-600" />
-            <p class="text-sm text-gray-700">
+            <hr class="my-4 border-light-600 dark:border-dark-300" />
+            <p class="text-sm text-gray-700 dark:text-gray-400">
               After you sign in, you will be prompted to sign a message and
               provide your public key. If you do not have the MetaMask
               extension, you can download it&nbsp;
-              <a
-                href="https://metamask.io/download/"
-                class="text-gray-900 visited:text-gray-500"
-              >
-                here.
-              </a>
+              <Link to="https://metamask.io/download/" external>
+                here
+              </Link>
+              .
             </p>
           </div>
         )}
@@ -75,7 +74,7 @@ const CogIcon = () => (
     viewBox="0 0 24 24"
     stroke-width="1.5"
     stroke="currentColor"
-    class="w-8 h-8"
+    class="w-8 h-8 animate-spin-slow"
   >
     <path
       stroke-linecap="round"
