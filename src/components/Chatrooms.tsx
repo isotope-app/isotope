@@ -8,7 +8,8 @@ import Button from "./Button";
 import Modal from "./Modal";
 import { createSignal } from "solid-js";
 import Input from "./Input";
-import { JoinEvent } from "@isotope-app/hydrogen";
+// @ts-expect-error
+import * as hydrogen from "@isotope-app/hydrogen";
 
 export default () => {
 	const navigate = useNavigate();
@@ -19,22 +20,21 @@ export default () => {
 
 	if (!userStore.user.address) navigate("/sign-in");
 	const addRoom = () => {
-		if (chatroomsStore.chatRooms.find((room) => room.id === roomAddress()))
+		if (chatroomsStore.chatRooms.find((room) => room.address === roomAddress()))
 			return;
 		chatroomsStore.setChatRooms((prev) => [
 			...prev,
 			{
-				ws: new WebSocketAsPromised(roomAddress()),
 				name: roomName(),
-				id: roomAddress(),
+				address: roomAddress(),
 			},
 		]);
 	};
 
-	const joinRoom = async (roomId: string) => {
-		const wsp = chatroomsStore.chatRooms.find((room) => room.id === roomId).ws;
+	const joinRoom = async (address: string) => {
+		const wsp = new WebSocketAsPromised(address);
 		await wsp.open();
-		const joinEvent = new JoinEvent(
+		const joinEvent = new hydrogen.JoinEvent(
 			userStore.user.address,
 			userStore.user.publicKey,
 		);
@@ -98,14 +98,12 @@ export default () => {
 					</div>
 				</div>
 				<div class="border-2 rounded-md col-span-1 h-full p-4 flex flex-col gap-x-2">
-					{chatroomsStore.chatRooms.map((room) => (
-						<RoomEntry
-							roomName={room.name}
-							joinRoom={() => {
-								joinRoom(room.id);
-							}}
-						/>
-					))}
+					<RoomEntry
+						roomName="Example Entry"
+						joinRoom={() => {
+							joinRoom("ws://localhost:8080");
+						}}
+					/>
 				</div>
 			</div>
 			<div class="col-span-4 h-full flex flex-col gap-y-8">
