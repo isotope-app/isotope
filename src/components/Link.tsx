@@ -2,6 +2,7 @@ import { A } from "@solidjs/router";
 
 interface LinkProps {
   to: string;
+  // rome-ignore lint/suspicious/noExplicitAny: children can be any type
   children?: any;
   external?: boolean;
   className?: string;

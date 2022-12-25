@@ -1,10 +1,9 @@
 import Button from "./Button";
-import { A } from "@solidjs/router";
 import Link from "./Link";
 
 export default () => {
   return (
-    <main class="p-8 max-w-screen-sm mx-auto mt-50 dark:text-white text-black">
+    <main class="p-8 max-w-screen-sm mx-auto mt-50 dark:text-white text-black animate-fade-in animate-duration-300">
       <h3 class="font-medium text-xl text-center font-alt">Project Isotope</h3>
       <h1 class="mt-2 font-semibold text-3xl text-center font-alt">
         Secure messaging, simplified
