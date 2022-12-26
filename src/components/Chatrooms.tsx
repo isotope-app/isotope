@@ -13,23 +13,9 @@ import * as hydrogen from "@isotope-app/hydrogen";
 
 export default () => {
 	const navigate = useNavigate();
-	const [visible, setVisible] = createSignal(false);
-	const [roomName, setRoomName] = createSignal("");
-	const [roomAddress, setRoomAddress] = createSignal("");
 	let messageRef: HTMLInputElement;
 
 	if (!userStore.user.address) navigate("/sign-in");
-	const addRoom = () => {
-		if (chatroomsStore.chatRooms.find((room) => room.address === roomAddress()))
-			return;
-		chatroomsStore.setChatRooms((prev) => [
-			...prev,
-			{
-				name: roomName(),
-				address: roomAddress(),
-			},
-		]);
-	};
 
 	const joinRoom = async (address: string) => {
 		const wsp = new WebSocketAsPromised(address);
@@ -44,6 +30,67 @@ export default () => {
 
 	return (
 		<main class="p-8 grid grid-cols-5 gap-x-8 h-screen dark:text-white text-black">
+			<div class="flex flex-col gap-y-4">
+				<div class="flex items-center justify-between">
+					<h3 class="font-alt font-medium text-xl">Project Isotope</h3>
+					<div class="flex items-center gap-x-4">
+						<Button>
+							<SignOutIcon />
+						</Button>
+						<JoinRoomModal />
+						<Button>
+							<CogIcon />
+						</Button>
+					</div>
+				</div>
+				<div class="border-2 col-span-1 h-full p-4 flex flex-col gap-x-2 rounded-md">
+					<RoomEntry
+						roomName="Example Entry"
+						joinRoom={() => {
+							joinRoom("ws://localhost:8080");
+						}}
+					/>
+				</div>
+			</div>
+			<div class="col-span-4 h-full flex flex-col gap-y-8">
+				<div class="border-2 h-full p-4 rounded-md">
+					<span>Chat area</span>
+				</div>
+				<Input ref={messageRef} placeholder="type your message here..." />
+			</div>
+		</main>
+	);
+};
+
+const CreateRoomModal = () => {
+	const [roomAddress, setRoomAddress] = createSignal("");
+	const [visible, setVisible] = createSignal(false);
+};
+
+const JoinRoomModal = () => {
+	const [roomName, setRoomName] = createSignal("");
+	const [roomAddress, setRoomAddress] = createSignal("");
+	const [visible, setVisible] = createSignal(false);
+	const addRoom = () => {
+		if (chatroomsStore.chatRooms.find((room) => room.address === roomAddress()))
+			return;
+		chatroomsStore.setChatRooms((prev) => [
+			...prev,
+			{
+				name: roomName(),
+				address: roomAddress(),
+			},
+		]);
+	};
+	return (
+		<>
+			<Button
+				onClick={() => {
+					setVisible(true);
+				}}
+			>
+				<PlusIcon />
+			</Button>
 			<Modal visible={visible}>
 				<div class="flex items-center gap-x-2">
 					<PlusCircleIcon />
@@ -78,41 +125,7 @@ export default () => {
 					</Button>
 				</div>
 			</Modal>
-			<div class="flex flex-col gap-y-4">
-				<div class="flex items-center justify-between">
-					<h3 class="font-alt font-medium text-xl">Project Isotope</h3>
-					<div class="flex items-center gap-x-4">
-						<Button>
-							<SignOutIcon />
-						</Button>
-						<Button
-							onClick={() => {
-								setVisible(true);
-							}}
-						>
-							<PlusIcon />
-						</Button>
-						<Button>
-							<CogIcon />
-						</Button>
-					</div>
-				</div>
-				<div class="border-2 rounded-md col-span-1 h-full p-4 flex flex-col gap-x-2">
-					<RoomEntry
-						roomName="Example Entry"
-						joinRoom={() => {
-							joinRoom("ws://localhost:8080");
-						}}
-					/>
-				</div>
-			</div>
-			<div class="col-span-4 h-full flex flex-col gap-y-8">
-				<div class="border-2 rounded-md h-full p-4">
-					<span>Chat area</span>
-				</div>
-				<Input ref={messageRef} placeholder="type your message here..." />
-			</div>
-		</main>
+		</>
 	);
 };
 

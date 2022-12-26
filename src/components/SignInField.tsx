@@ -32,7 +32,7 @@ export default () => {
 
 	return (
 		<main class="w-screen h-screen flex justify-center items-center p-8 text-black dark:text-white animate-fade-in animate-duration-300">
-			<div class="bg-white dark:bg-black border shadow-light-500 dark:shadow-dark-200 shadow-lg w-1/3 rounded-md p-8">
+			<div class="bg-white dark:bg-black border-2 shadow-light-500 dark:shadow-dark-200 shadow-xl w-1/3 rounded-md p-8">
 				{error() ? (
 					<div>
 						<div class="flex flex-col gap-y-1 items-center">

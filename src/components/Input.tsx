@@ -26,7 +26,7 @@ export default ({
 			</span>
 			<input
 				type={type || "text"}
-				class={`${className} bg-white dark:bg-black border-2 rounded-md p-2`}
+				class={`${className} rounded-md bg-white dark:bg-black border-2 p-2`}
 				placeholder={placeholder}
 				onChange={onInput}
 				ref={ref}
