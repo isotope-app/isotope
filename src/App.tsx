@@ -1,8 +1,8 @@
-import type { Component } from "solid-js";
-import SignInField from "./components/SignInField";
-import WelcomeHero from "./components/WelcomeHero";
-import { Routes, Route } from "@solidjs/router";
-import Chatrooms from "./components/Chatrooms";
+import type { Component } from 'solid-js';
+import SignInField from './components/SignInField';
+import WelcomeHero from './components/WelcomeHero';
+import { Routes, Route } from '@solidjs/router';
+import Chatrooms from './components/Chatrooms';
 
 const App: Component = () => {
   return (

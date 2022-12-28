@@ -1,4 +1,4 @@
-import { createStore } from "solid-js/store";
+import { createStore } from 'solid-js/store';
 
 interface User {
   address: string;
@@ -8,5 +8,6 @@ interface User {
 const [user, setUser] = createStore<User | undefined>(undefined);
 
 export default {
-  user, setUser
+  user,
+  setUser,
 };

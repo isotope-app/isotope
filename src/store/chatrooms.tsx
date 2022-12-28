@@ -1,13 +1,13 @@
-import { createStore } from "solid-js/store";
+import { createStore } from 'solid-js/store';
 
 interface Room {
-	name: string;
-	address: string;
+  name: string;
+  address: string;
 }
 
 const [chatRooms, setChatRooms] = createStore<Room[] | undefined>(undefined);
 
 export default {
-	chatRooms,
-	setChatRooms,
+  chatRooms,
+  setChatRooms,
 };

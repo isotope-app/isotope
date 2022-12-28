@@ -2,5 +2,7 @@
   "editor.suggest.showStatusBar": true,
   "editor.quickSuggestions": {
     "strings": true
-  }
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "rome.rome"
 }

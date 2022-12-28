@@ -1,11 +1,11 @@
 /* @refresh reload */
-import { render } from "solid-js/web";
-import { Router } from "@solidjs/router";
+import { render } from 'solid-js/web';
+import { Router } from '@solidjs/router';
 
-import App from "./App";
+import App from './App';
 
-import "virtual:windi.css";
-import "./styles.css";
+import 'virtual:windi.css';
+import './styles.css';
 
 render(
   () => (
@@ -13,5 +13,5 @@ render(
       <App />
     </Router>
   ),
-  document.getElementById("root") as HTMLElement
+  document.getElementById('root') as HTMLElement
 );
