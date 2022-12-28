@@ -1,3 +1,5 @@
+import roomStore from '../store/chatrooms';
+
 interface EntryProps {
   roomName?: string;
   joinRoom?: () => void;
@@ -9,7 +11,11 @@ export default ({ roomName, joinRoom }: EntryProps) => {
       <span class="font-medium">{roomName}</span>
       <div class="flex items-center gap-x-2">
         <PlusIcon onClick={joinRoom} />
-        <XIcon />
+        <XIcon
+          onClick={() => {
+            roomStore.setChatRooms((prev) => prev.filter((room) => room.topic !== roomName));
+          }}
+        />
       </div>
     </div>
   );

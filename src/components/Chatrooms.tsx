@@ -1,27 +1,29 @@
 import RoomEntry from './RoomEntry';
-
 import userStore from '../store/user';
+import ipfsStore from '../store/ipfs';
 import chatroomsStore from '../store/chatrooms';
 import { useNavigate } from '@solidjs/router';
 import Button from './Button';
 import Modal from './Modal';
 import { createSignal } from 'solid-js';
 import Input from './Input';
-// @ts-expect-error
-import * as hydrogen from '@isotope-app/hydrogen';
+import { JoinEvent } from '@isotope-app/hydrogen';
+import pubsubUtils from '../utils/pubsub';
 
 export default () => {
   const navigate = useNavigate();
   let messageRef: HTMLInputElement;
 
-  if (!userStore.user.address) navigate('/sign-in');
+  if (!(userStore.user.address && ipfsStore.ipfsClient.client)) navigate('/sign-in');
 
-  const joinRoom = async (address: string) => {
-    const wsp = new WebSocketAsPromised(address);
-    await wsp.open();
-    const joinEvent = new hydrogen.JoinEvent(userStore.user.address, userStore.user.publicKey);
-    await joinEvent.init();
-    wsp.send(joinEvent.into());
+  const joinRoom = async (topic: string) => {
+    ipfsStore.ipfsClient.client.pubsub.subscribe(topic, pubsubUtils.recieveBuffer).then(() => {
+      const event = new JoinEvent(userStore.user.address, userStore.user.publicKey);
+      event.init().then(() => {
+        pubsubUtils.sendBuffer(ipfsStore.ipfsClient.client, topic, event.into());
+      });
+    });
+    // console.log(ipfsStore.ipfsClient.client.isOnline());
   };
 
   return (
@@ -40,12 +42,15 @@ export default () => {
           </div>
         </div>
         <div class="border-2 col-span-1 h-full p-4 flex flex-col gap-x-2 rounded-md">
-          <RoomEntry
-            roomName="Example Entry"
-            joinRoom={() => {
-              joinRoom('ws://localhost:8080');
-            }}
-          />
+          {chatroomsStore.chatRooms.length ? (
+            chatroomsStore.chatRooms.map((room) => (
+              <RoomEntry roomName={room.topic} joinRoom={() => joinRoom(room.topic)} />
+            ))
+          ) : (
+            <span class='text-center text-xs text-gray-700 dark:text-gray-400'>
+              You don't have any rooms yet. Click the plus button above to create one.
+            </span>
+          )}
         </div>
       </div>
       <div class="col-span-4 h-full flex flex-col gap-y-8">
@@ -58,32 +63,15 @@ export default () => {
   );
 };
 
-const CreateRoomModal = () => {
-  const [roomAddress, setRoomAddress] = createSignal('');
-  const [visible, setVisible] = createSignal(false);
-  const createRoom = () => {
-    if (chatroomsStore.chatRooms.find((room) => room.address === roomAddress())) return;
-    chatroomsStore.setChatRooms((prev) => [
-      ...prev,
-      {
-        name: roomAddress(),
-        address: roomAddress(),
-      },
-    ]);
-  };
-};
-
 const JoinRoomModal = () => {
-  const [roomName, setRoomName] = createSignal('');
-  const [roomAddress, setRoomAddress] = createSignal('');
+  const [roomTopic, setRoomTopic] = createSignal('');
   const [visible, setVisible] = createSignal(false);
   const addRoom = () => {
-    if (chatroomsStore.chatRooms.find((room) => room.address === roomAddress())) return;
+    if (chatroomsStore.chatRooms.find((room) => room.topic === roomTopic())) return;
     chatroomsStore.setChatRooms((prev) => [
       ...prev,
       {
-        name: roomName(),
-        address: roomAddress(),
+        topic: roomTopic(),
       },
     ]);
   };
@@ -104,16 +92,9 @@ const JoinRoomModal = () => {
         <hr class="my-4 border-light-600 dark:border-dark-300" />
         <div class="flex flex-col gap-y-4">
           <Input
-            label="Room Name"
+            label="Topic"
             onInput={(ev) => {
-              setRoomName(ev.currentTarget.value);
-            }}
-          />
-          <Input
-            label="Room Address"
-            placeholder="ws://localhost:8080"
-            onInput={(ev) => {
-              setRoomAddress(ev.currentTarget.value);
+              setRoomTopic(ev.currentTarget.value);
             }}
           />
         </div>

@@ -1,6 +1,8 @@
 import { useNavigate } from '@solidjs/router';
+import { create } from 'ipfs-http-client';
 import { createSignal } from 'solid-js';
 import userStore from '../store/user';
+import ipfsStore from '../store/ipfs';
 import Button from './Button';
 import Link from './Link';
 
@@ -22,6 +24,7 @@ export default () => {
         params: [accounts[0]],
       });
       userStore.setUser({ address: accounts[0], publicKey });
+      ipfsStore.setIpfsClient({ client: create({ url: ipfsStore.ipfsClient.apiAddress }) });
       navigate('/chat');
     } catch (e) {
       setError(e.message);

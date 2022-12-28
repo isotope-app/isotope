@@ -329,10 +329,10 @@
   dependencies:
     multiformats "^10.0.2"
 
-"@isotope-app/hydrogen@^1.0.0-beta-12":
-  version "1.0.0-beta-12"
-  resolved "https://npm.pkg.github.com/download/@isotope-app/hydrogen/1.0.0-beta-12/9af43c4f913c110d91856505cebd194ec3deb7a1#9af43c4f913c110d91856505cebd194ec3deb7a1"
-  integrity sha512-lki2S+kYVDJgXvVmHCglZsNps9e/UOjtv/kNwHkbM6vaTSHclr1HwcDRRMa5uMC+FYFdO6iceIudW++0g75VEw==
+"@isotope-app/hydrogen@^1.0.0-beta-13":
+  version "1.0.0-beta-13"
+  resolved "https://npm.pkg.github.com/download/@isotope-app/hydrogen/1.0.0-beta-13/6ed389bba8e96bfc57e217d65b27348e3aaffea4#6ed389bba8e96bfc57e217d65b27348e3aaffea4"
+  integrity sha512-xhPV9xwSwan8cpIILkXklauc1Aw2BqzDfRp6AftyWh0AWHnYBfMUyyquouOrfi7mGU+4+rTlDTxyz56DOvGfjQ==
   dependencies:
     "@esbuild-plugins/node-modules-polyfill" "^0.1.4"
     msgpack-lite "^0.1.26"

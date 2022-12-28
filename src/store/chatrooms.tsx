@@ -1,11 +1,10 @@
 import { createStore } from 'solid-js/store';
 
 interface Room {
-  name: string;
-  address: string;
+  topic: string;
 }
 
-const [chatRooms, setChatRooms] = createStore<Room[] | undefined>(undefined);
+const [chatRooms, setChatRooms] = createStore<Room[]>([]);
 
 export default {
   chatRooms,

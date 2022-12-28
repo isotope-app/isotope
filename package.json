@@ -21,7 +21,7 @@
     "windicss": "^3.5.6"
   },
   "dependencies": {
-    "@isotope-app/hydrogen": "^1.0.0-beta-12",
+    "@isotope-app/hydrogen": "^1.0.0-beta-13",
     "@solidjs/router": "^0.5.1",
     "buffer": "^6.0.3",
     "ipfs-http-client": "^59.0.0",
